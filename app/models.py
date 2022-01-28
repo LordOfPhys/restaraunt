@@ -26,7 +26,7 @@ class Photo(models.Model):
     file = models.ImageField(upload_to='restaraunt_photos', blank=True)
 
     def __str__(self):
-        return self.restaraunt
+        return str(self.restaraunt)
 
     def get_image(self):
         return self.file

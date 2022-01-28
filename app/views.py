@@ -5,6 +5,9 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from app.models import *
 
+def get_data(request):
+    return json.loads(request.body.decode("utf-8"))
+
 def get_info_about_restaraunt(restaraunt):
     photos = Photo.objects.filter(restaraunt=restaraunt)
     arr_photos = []
@@ -22,4 +25,11 @@ def get_restaraunts(request):
         element = [item.get_label(), item.get_image_label().url]
         array_for_response.append(element)
     return HttpResponse(json.dumps({'items': array_for_response}))
+
+@csrf_exempt
+def get_restaraunt_info(request):
+    if request.method != 'POST':
+        return HttpResponse(500)
+    else:
+        return HttpResponse(get_info_about_restaraunt(Restaraunt.objects.get(label = get_data(request)['restaraunt_label'])))
 

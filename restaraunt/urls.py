@@ -22,5 +22,6 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('get_restaraunts', views.get_restaraunts, name='get_restaraunts'),
+    path('get_restaraunt_info', views.get_restaraunt_info, name='get_restaraunt_info'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

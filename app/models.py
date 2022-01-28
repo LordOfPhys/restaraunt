@@ -1,7 +1,7 @@
 from django.db import models
 
 class Restaraunt(models.Model):
-    label = models.CharField(max_length=100, blank=True)
+    label = models.CharField(max_length=100, blank=True, unique=True)
     description = models.TextField()
     menu = models.ImageField(upload_to='restaraunt_menus', blank=True)
     image_label = models.ImageField(upload_to='restaraunt_image_label', blank=True)

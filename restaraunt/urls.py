@@ -23,5 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('get_restaraunts', views.get_restaraunts, name='get_restaraunts'),
     path('get_restaraunt_info', views.get_restaraunt_info, name='get_restaraunt_info'),
+    path('make_booking', views.make_booking, name='make_booking'),
+    path('delete_booking', views.delete_booking, name='delete_booking'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

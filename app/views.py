@@ -1,4 +1,5 @@
 import json
+import random
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -17,6 +18,15 @@ def get_info_about_restaraunt(restaraunt):
                        'label_photo': restaraunt.get_image_label().url, 'menu': restaraunt.get_menu().url,
                        'photos': arr_photos})
 
+def get_unique_code_for_table():
+    codes = []
+    for item in Table.objects.all():
+        codes.append(int(item.get_code()))
+    result = random.randint(1000, 9999)
+    while result in codes:
+        result = random.randint(1000, 9999) + 1
+    return result
+
 @csrf_exempt
 def get_restaraunts(request):
     items = Restaraunt.objects.all()
@@ -33,3 +43,24 @@ def get_restaraunt_info(request):
     else:
         return HttpResponse(get_info_about_restaraunt(Restaraunt.objects.get(label = get_data(request)['restaraunt_label'])))
 
+@csrf_exempt
+def make_booking(request):
+    if request.method != 'POST':
+        return HttpResponse(500)
+    else:
+        restaraunt = Restaraunt.objects.get(label = get_data(request)['restaraunt_label'])
+        code = get_unique_code_for_table()
+        Table.objects.get_or_create(restaraunt = restaraunt, code = code,
+                                    size = get_data(request)['table_size'], time_booking=get_data(request)['time_booking'])
+        return HttpResponse(json.dumps({'booking_number': Table.objects.get(code = code).get_code()}))
+
+@csrf_exempt
+def delete_booking(request):
+    if request.method != 'POST':
+        return HttpResponse(500)
+    else:
+        try:
+            Table.objects.get(code = get_data(request)['code_booking']).delete()
+            return HttpResponse(200)
+        except:
+            return HttpResponse(400)

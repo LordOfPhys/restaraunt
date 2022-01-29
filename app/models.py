@@ -34,5 +34,8 @@ class Photo(models.Model):
 class Table(models.Model):
     restaraunt = models.ForeignKey(Restaraunt, on_delete=models.CASCADE, related_name='table')
     code = models.CharField(max_length=5, default='0')
-    booking = models.BooleanField(default=False)
     size = models.IntegerField(default=2)
+    time_booking = models.TimeField(default='10:00')
+
+    def get_code(self):
+        return self.code

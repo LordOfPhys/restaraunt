@@ -55,12 +55,12 @@ class Photo(models.Model):
 
 class Table(models.Model):
     restaraunt = models.ForeignKey(Restaraunt, on_delete=models.CASCADE, related_name='table')
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='users_table', blank=True)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userprofile')
     code = models.CharField(max_length=5, default='0')
     size = models.IntegerField(default=2)
     time_booking = models.TimeField(default='10:00')
     is_closed = models.BooleanField(default=False)
-    ckeck_photo = models.ImageField(upload_to='check_photos', blank=True)
+    sum = models.FloatField(default=0.0, blank=True)
 
     def get_code(self):
         return self.code

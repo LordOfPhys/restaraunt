@@ -61,10 +61,10 @@ def make_booking(request):
 @csrf_exempt
 def delete_booking(request):
     if request.method != 'POST':
-        return HttpResponse(500)
+        return HttpResponse(json.dumps({'response': str(500)}))
     else:
         try:
             Table.objects.get(code = get_data(request)['code_booking']).delete()
             return HttpResponse(json.dumps({'response': str(200)}))
         except:
-            return HttpResponse(400)
+            return HttpResponse(json.dumps({'response': str(400)}))

@@ -59,7 +59,7 @@ class Table(models.Model):
     code = models.CharField(max_length=5, default='0')
     size = models.IntegerField(default=2)
     time_booking = models.TimeField(default='10:00')
-    date_booking = models.DateField(default='01.01.2000')
+    date_booking = models.DateField(default='2000-01-01')
     is_closed = models.BooleanField(default=False)
     sum = models.FloatField(default=0.0, blank=True)
 

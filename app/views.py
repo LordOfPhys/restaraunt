@@ -65,6 +65,6 @@ def delete_booking(request):
     else:
         try:
             Table.objects.get(code = get_data(request)['code_booking']).delete()
-            return HttpResponse(200)
+            return HttpResponse(json.dumps({'response': str(200)}))
         except:
             return HttpResponse(400)

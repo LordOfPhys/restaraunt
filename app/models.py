@@ -1,4 +1,20 @@
 from django.db import models
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.conf import settings
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
+    is_restaraunt = models.BooleanField(default=False)
+    unique_code = models.CharField(max_length=10, default='', blank=True)
+    balance = models.FloatField(default=0.0)
 
 class Restaraunt(models.Model):
     label = models.CharField(max_length=100, blank=True, unique=True)
@@ -39,9 +55,12 @@ class Photo(models.Model):
 
 class Table(models.Model):
     restaraunt = models.ForeignKey(Restaraunt, on_delete=models.CASCADE, related_name='table')
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='users_table', blank=True)
     code = models.CharField(max_length=5, default='0')
     size = models.IntegerField(default=2)
     time_booking = models.TimeField(default='10:00')
+    is_closed = models.BooleanField(default=False)
+    ckeck_photo = models.ImageField(upload_to='check_photos', blank=True)
 
     def get_code(self):
         return self.code

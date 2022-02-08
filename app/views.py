@@ -51,7 +51,7 @@ def make_booking(request):
     if request.method != 'POST':
         return HttpResponse(500)
     else:
-        print(request)
+        print(request.POST)
         restaraunt = Restaraunt.objects.get(label = get_data(request)['restaraunt_label'])
         code = get_unique_code_for_table()
         Table.objects.get_or_create(restaraunt = restaraunt, code = code, user=UserProfile.objects.get(user=User.objects.all()[0]),

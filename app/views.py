@@ -54,7 +54,7 @@ def make_booking(request):
         print(request)
         restaraunt = Restaraunt.objects.get(label = get_data(request)['restaraunt_label'])
         code = get_unique_code_for_table()
-        Table.objects.get_or_create(restaraunt = restaraunt, code = code, user=UserProfile.objects.get(User.objects.all()[0]),
+        Table.objects.get_or_create(restaraunt = restaraunt, code = code, user=UserProfile.objects.get(user=User.objects.all()[0]),
                                     size = get_data(request)['table_size'], time_booking=get_data(request)['time_booking'])
         return HttpResponse(json.dumps({'booking_number': Table.objects.get(code = code).get_code()}))
 
